@@ -1,13 +1,10 @@
-var roleGuarder = require('role.guarder');
+//var roleGuarder = require('role.guarder');
 
-module.exports = {
-    // a function to run the logic for this role
-    run: function(creep) {
-    		var target = creep.pos.findNearest(Game.HOSTILE_CREEPS);
-			if(target && creep.hits > creep.hitsMax - 500 /* no more attack */) {
-						creep.moveTo(target);
-						creep.attack(target);
-			} else {
-					creep.moveTo(Game.spawns.Spawn1);
-			}
-}
+module.exports = function(creep){
+    var targets = creep.room.find(FIND_HOSTILE_CREEPS,{filter: function(c){return c.owner.username !== "Source Keeper";}});
+    if(targets.length){
+	    if(creep.attack(targets[0]) == ERR_NOT_IN_RANGE) {
+		    creep.moveTo(targets[0]);
+	    }
+    }
+};

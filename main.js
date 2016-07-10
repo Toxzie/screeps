@@ -3,7 +3,7 @@ var roleHarvester = require('role.harvester');
 var roleUpgrader = require('role.upgrader');
 var roleBuilder = require('role.builder');
 var roleRepairer = require('role.repairer');
-//var roleGuarder = require('role.guarder');
+var roleGuarder = require('role.guarder');
 
 module.exports.loop = function () {
     // check for memory entries of died creeps by iterating over Memory.creeps
@@ -86,17 +86,17 @@ module.exports.loop = function () {
         name = Game.spawns.Spawn1.createCreep([WORK,WORK,CARRY,MOVE], undefined,
             { role: 'repairer', working: false});
     }
-    // if not enough guarders
-    else if (numberOfGuarders < minimumNumberOfGuarders) {
-        // try to spawn one
-        name = Game.spawns.Spawn1.createCreep([MOVE,MOVE,ATTACK,ATTACK], undefined,
-            { role: 'guarder', working: false});
-    }
     // if not enough builders
     else if (numberOfBuilders < minimumNumberOfBuilders) {
         // try to spawn one
         name = Game.spawns.Spawn1.createCreep([WORK,WORK,CARRY,MOVE], undefined,
             { role: 'builder', working: false});
+    }
+    // if not enough guards
+    else if (numberOfGuarders < minimumNumberOfGuarders) {
+        // try to spawn one
+        name = Game.spawns.Spawn1.createCreep([ATTACK,ATTACK,MOVE,MOVE], undefined,
+            { role: 'guarder', working: false});
     }
     else {
         // else try to spawn a builder
